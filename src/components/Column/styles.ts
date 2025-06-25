@@ -4,6 +4,35 @@ interface ColumnContainerProps {
   color: string;
 }
 
+export const PlusIcon = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+`;
+
+export const AddTaskButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+`;
+
 export const ColumnContainer = styled.div<ColumnContainerProps>`
   background-color: ${props => props.color};
   border-radius: 8px;
@@ -27,18 +56,18 @@ export const TaskList = styled.div`
   margin-bottom: 16px;
 `;
 
-export const AddTaskButton = styled.button`
-  background: transparent;
-  border: 1px dashed #999;
-  color: #666;
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
+// export const AddTaskButton = styled.button`
+//   background: transparent;
+//   border: 1px dashed #999;
+//   color: #666;
+//   width: 100%;
+//   padding: 8px;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   transition: all 0.2s;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #666;
-  }
-`;
+//   &:hover {
+//     background: rgba(255, 255, 255, 0.2);
+//     border-color: #666;
+//   }
+// `;
