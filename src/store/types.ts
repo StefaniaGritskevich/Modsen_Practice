@@ -11,7 +11,7 @@ export interface Task{
     columnId: string;
     title:string;
     description: string;
-    priority?: string;
+    priority?: 'Low' | 'Medium' | 'High';
 };
 
 export interface Kanban{
