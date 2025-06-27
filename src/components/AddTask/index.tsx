@@ -21,7 +21,7 @@ interface AddTaskProps {
 const AddTask: React.FC<AddTaskProps> = ({ columnId, onClose }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [priority, setPriority] = useState<Priority>('Medium');
+    const [priority, setPriority] = useState<Priority | undefined>(undefined); // Изменено на необязательное значение
     const dispatch = useDispatch();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -32,12 +32,12 @@ const AddTask: React.FC<AddTaskProps> = ({ columnId, onClose }) => {
             columnId,
             title,
             description,
-            priority
+            priority: priority || undefined // Если priority не выбран, отправим undefined
         }));
 
         setTitle('');
         setDescription('');
-        setPriority('Medium');
+        setPriority(undefined); // Сбрасываем на undefined
         onClose();
     };
 
@@ -49,9 +49,10 @@ const AddTask: React.FC<AddTaskProps> = ({ columnId, onClose }) => {
             </FormHeader>
             
             <PrioritySelect
-                value={priority}
-                onChange={(e) => setPriority(e.target.value as Priority)}
+                value={priority || ''} // Пустое значение, если priority не выбран
+                onChange={(e) => setPriority(e.target.value ? e.target.value as Priority : undefined)}
             >
+                <option value="">No priority</option> {/* Добавлен вариант без приоритета */}
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>

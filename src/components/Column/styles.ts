@@ -1,73 +1,53 @@
 import styled from 'styled-components';
 
-interface ColumnContainerProps {
-  color: string;
-}
-
-export const PlusIcon = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover {
-        background-color: #e0e0e0;
-    }
-`;
-
-export const AddTaskButton = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    margin-top: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-`;
-
-export const ColumnContainer = styled.div<ColumnContainerProps>`
-  background-color: ${props => props.color};
+export const ColumnContainer = styled.div<{ ref?: any }>`
+  background-color: #f5f5f5;
   border-radius: 8px;
   padding: 16px;
-  min-width: 280px;
+  width: 280px;
   margin-right: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-export const ColumnTitle = styled.h3`
-  font-size: 16px;
+export const ColumnTitle = styled.h2`
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin: 0 0 16px 0;
   color: #333;
+  display: flex;
+  align-items: center;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    margin-right: 8px;
+    font-size: 14px;
+  }
 `;
 
 export const TaskList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
 `;
 
-// export const AddTaskButton = styled.button`
-//   background: transparent;
-//   border: 1px dashed #999;
-//   color: #666;
-//   width: 100%;
-//   padding: 8px;
-//   border-radius: 4px;
-//   cursor: pointer;
-//   transition: all 0.2s;
+export const AddTaskButton = styled.button`
+  width: 100%;
+  padding: 8px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-//   &:hover {
-//     background: rgba(255, 255, 255, 0.2);
-//     border-color: #666;
-//   }
-// `;
+  &:hover {
+    background-color: #d0d0d0;
+  }
+`;
