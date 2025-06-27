@@ -3,8 +3,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import Column from '../Column';
+import AddColumn from '../AddColumn';
 import styled from 'styled-components';
-import { moveTask} from '../../store/kanbanSlice';
+import { moveTask } from '../../store/kanbanSlice';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const BoardContainer = styled.div`
 export const KanbanBoard = () => {
   const dispatch = useDispatch();
   const columns = useSelector((state: RootState) => state.kanban.columns);
+  const tasks = useSelector((state: RootState) => state.kanban.tasks);
 
   const handleMoveTask = (dragIndex: number, hoverIndex: number, sourceColumn: string, targetColumn: string) => {
     dispatch(moveTask({
@@ -36,6 +38,7 @@ export const KanbanBoard = () => {
             moveTask={handleMoveTask}
           />
         ))}
+        <AddColumn />
       </BoardContainer>
     </DndProvider>
   );

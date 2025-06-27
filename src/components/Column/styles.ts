@@ -8,6 +8,20 @@ export const ColumnContainer = styled.div<{ ref?: any }>`
   margin-right: 16px;
 `;
 
+export const DeleteColumnButton = styled.button`
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: auto;
+  padding: 0 8px;
+
+  &:hover {
+    color: #ff0000;
+  }
+`;
+
 export const ColumnTitle = styled.h2`
   font-size: 18px;
   font-weight: 600;
