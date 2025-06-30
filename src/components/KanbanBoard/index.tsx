@@ -9,9 +9,28 @@ import { moveTask } from '../../store/kanbanSlice';
 
 const BoardContainer = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 24px;
+  gap: 16px;
   overflow-x: auto;
-  min-height: 80vh;
+  min-height: calc(100vh - 100px);
+  align-items: flex-start;
+`;
+
+const BoardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:35px;
+  margin-bottom: 16px;
+  background-color: #F8FAFC;
+`;
+
+const BoardTitle = styled.h1`
+  font-size: 30px;
+  font-weight: 800;
+  color: #1e293b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
 `;
 
 export const KanbanBoard = () => {
@@ -29,18 +48,23 @@ export const KanbanBoard = () => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <BoardContainer>
-        {columns.map((column) => (
-          <Column
-            key={column.id}
-            column={column}
-            moveTask={handleMoveTask}
-          />
-        ))}
+    <div>
+      <BoardHeader>
+        <BoardTitle>Kanban Dashboard</BoardTitle>
         <AddColumn />
-      </BoardContainer>
-    </DndProvider>
+      </BoardHeader>
+      <DndProvider backend={HTML5Backend}>
+        <BoardContainer>
+          {columns.map((column) => (
+            <Column
+              key={column.id}
+              column={column}
+              moveTask={handleMoveTask}
+            />
+          ))}
+        </BoardContainer>
+      </DndProvider>
+    </div>
   );
 };
 

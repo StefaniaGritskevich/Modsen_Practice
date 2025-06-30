@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { ColumnContainer, ColumnTitle, TaskList, AddTaskButton, DeleteColumnButton } from './styles';
+import { ColumnContainer, ColumnTitle, TaskList, AddTaskButton, DeleteColumnButton, AddTaskButtonContainer } from './styles';
 import TaskCard from '../TaskCard';
 import AddTask from '../AddTask';
-import { ItemTypes } from '../../store/types';
+import { ItemTypes, DragItem } from '../../store/types'; // Добавляем импорт DragItem
 import { deleteColumn } from '../../store/kanbanSlice';
 
 interface ColumnProps {
@@ -25,6 +25,15 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
 
   const [, drop] = useDrop({
     accept: ItemTypes.TASK,
+    hover: (item: DragItem, monitor) => {
+      if (!monitor.isOver({ shallow: true })) return;
+      
+      if (item.columnId !== column.id) {
+        moveTask(item.index, 0, item.columnId, column.id);
+        item.index = 0;
+        item.columnId = column.id;
+      }
+    },
     drop: () => ({ columnId: column.id }),
   });
 
@@ -36,10 +45,10 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
 
   return (
     <ColumnContainer ref={drop}>
-      <ColumnTitle>
-        <span>{tasks.length}</span> {column.title}
-        <DeleteColumnButton onClick={handleDeleteColumn}>×</DeleteColumnButton>
-      </ColumnTitle>
+        <ColumnTitle color={column.color}>
+            <span>{tasks.length}</span> {column.title}
+            <DeleteColumnButton onClick={handleDeleteColumn}>×</DeleteColumnButton>
+        </ColumnTitle>
       <TaskList>
         {tasks.map((task, index) => (
           <TaskCard
@@ -51,7 +60,15 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
           />
         ))}
       </TaskList>
-      <AddTaskButton onClick={() => setIsAddingTask(true)}>+</AddTaskButton>
+      <AddTaskButtonContainer>
+        <AddTaskButton 
+          onClick={() => setIsAddingTask(true)}
+          color={column.color}
+        >
+          Add task...
+        </AddTaskButton>
+      </AddTaskButtonContainer>
+
       {isAddingTask && (
         <AddTask 
           columnId={column.id} 

@@ -1,21 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { updateTask, deleteTask } from '../../store/kanbanSlice';
 import { DragItem, ItemTypes } from '../../store/types';
 import { Task } from '../../store/types';
+import AddTask from '../AddTask'; // Импортируем компонент AddTask
 import { 
   TaskCardContainer, 
   TaskTitle, 
   TaskDescription,
-  PriorityLabel,
-  EditForm,
-  EditInput,
-  EditTextarea,
-  PrioritySelect,
-  SaveButton,
-  DeleteButton,
-  NoPriorityOption
+  PriorityLabel
 } from './styles';
 
 interface TaskCardProps {
@@ -27,11 +21,6 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState({
-    title: task.title,
-    description: task.description,
-    priority: task.priority
-  });
   const dispatch = useDispatch();
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -67,65 +56,40 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) 
     setIsEditing(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = (updatedTask: {
+    title: string;
+    description: string;
+    priority?: 'Low' | 'Medium' | 'High';
+  }) => {
     dispatch(updateTask({
       id: task.id,
       updates: {
-        title: editedTask.title,
-        description: editedTask.description,
-        priority: editedTask.priority || undefined
+        title: updatedTask.title,
+        description: updatedTask.description,
+        priority: updatedTask.priority
       }
     }));
     setIsEditing(false);
   };
 
-  const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation(); 
+  const handleDelete = () => {
     dispatch(deleteTask(task.id));
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setEditedTask(prev => ({
-      ...prev,
-      [name]: value === '' ? undefined : value
-    }));
   };
 
   if (isEditing) {
     return (
-      <EditForm onSubmit={handleSave}>
-        <PrioritySelect
-          name="priority"
-          value={editedTask.priority || ''}
-          onChange={handleChange}
-        >
-          <option value="">No priority</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </PrioritySelect>
-        
-        <EditInput
-          type="text"
-          name="title"
-          value={editedTask.title}
-          onChange={handleChange}
-          required
-        />
-        
-        <EditTextarea
-          name="description"
-          value={editedTask.description}
-          onChange={handleChange}
-        />
-        
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <SaveButton type="submit">Save</SaveButton>
-          <DeleteButton type="button" onClick={handleDelete}>Delete</DeleteButton>
-        </div>
-      </EditForm>
+      <AddTask
+        columnId={columnId}
+        initialTask={{
+          title: task.title,
+          description: task.description,
+          priority: task.priority
+        }}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        onClose={() => setIsEditing(false)}
+        isEditMode={true}
+      />
     );
   }
 
