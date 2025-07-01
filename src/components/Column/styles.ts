@@ -85,3 +85,20 @@ background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
 `;
+
+export const ColumnTitleInput = styled.input`
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #E2E8F0;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: white;
+  margin-bottom: 16px;
+  
+  &:focus {
+    outline: none;
+    border-color: #94A3B8;
+  }
+`;
