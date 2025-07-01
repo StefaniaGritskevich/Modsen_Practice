@@ -106,6 +106,12 @@ const kanbanSlice = createSlice({
       state.columns = state.columns.filter((col) => col.id !== action.payload);
       state.tasks = state.tasks.filter((task) => task.columnId !== action.payload);
     },
+    updateColumn: (state, action: PayloadAction<{ id: string; updates: Partial<Column> }>) => {
+  const column = state.columns.find(col => col.id === action.payload.id);
+  if (column) {
+    Object.assign(column, action.payload.updates);
+  }
+}
   },
 });
 
@@ -116,6 +122,7 @@ export const {
   updateTask,
   addColumn,
   deleteColumn,
+  updateColumn
 } = kanbanSlice.actions;
 
 export default kanbanSlice.reducer;
