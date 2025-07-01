@@ -1,19 +1,9 @@
 import styled from 'styled-components';
 
-// export const TaskCardContainer = styled.div`
-//   background-color: white;
-//   border-radius: 8px;
-//   padding: 16px;
-//   margin-bottom: 12px;
-//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-//   cursor: pointer;
-//   position: relative;
-// `;
-
 export const TaskCardContainer = styled.div<{ priority?: 'Low' | 'Medium' | 'High', isDragging?: boolean }>`
   background-color: white;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 24px;
+  padding: 12px;
   margin-bottom: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: grab;
@@ -30,11 +20,11 @@ export const TaskCardContainer = styled.div<{ priority?: 'Low' | 'Medium' | 'Hig
 export const PriorityLabel = styled.span<{ priority: 'Low' | 'Medium' | 'High' }>`
   display: inline-block;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 1234px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
-  text-transform: uppercase;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   
   background-color: ${({ priority }) => 
     priority === 'High' 
@@ -54,26 +44,30 @@ export const PriorityLabel = styled.span<{ priority: 'Low' | 'Medium' | 'High' }
 export const TaskTitle = styled.h3`
   margin: 0 0 8px 0;
   font-size: 16px;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: #1E293B;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 `;
 
 export const TaskDescription = styled.p`
   margin: 0;
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #475569;
+  line-height: 1.6;
+  letter-spacing: 0px;
 `;
 
 export const EditForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 12px;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 12px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
 `;
 
 export const EditInput = styled.input`

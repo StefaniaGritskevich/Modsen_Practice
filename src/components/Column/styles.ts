@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { rgba } from 'polished';
 
 export const ColumnContainer = styled.div<{ ref?: any }>`
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  background-color: #F8FAFC;
+  border-radius: 32px;
   padding: 16px;
   width: 280px;
   margin-right: 16px;
@@ -22,22 +23,27 @@ export const DeleteColumnButton = styled.button`
   }
 `;
 
-export const ColumnTitle = styled.h2`
-  font-size: 18px;
-  font-weight: 600;
+export const ColumnTitle = styled.div<{ color: string }>`
+  font-size: 16px;
+  font-weight: 700;
   margin: 0 0 16px 0;
-  color: #333;
+  color: #ffffff;
   display: flex;
   align-items: center;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  background-color: ${props => props.color};
+  font-family: 'Plus Jakarta Sans', sans-serif;
 
   span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    background-color: #e0e0e0;
-    border-radius: 50%;
+    width: 33px;
+    height: 32px;
+    background-color: #ffffff;
+    color: ${props => rgba(props.color, 0.3)};
+    border-radius: 1234px;
     margin-right: 8px;
     font-size: 14px;
   }
@@ -48,20 +54,34 @@ export const TaskList = styled.div`
   flex-direction: column;
 `;
 
-export const AddTaskButton = styled.button`
-  width: 100%;
+export const AddTaskButton = styled.button<{ color: string }>`
+  
   padding: 8px;
-  background-color: #e0e0e0;
+  background-color: ${props => rgba(props.color, 0.1)};;
   border: none;
-  border-radius: 4px;
-  font-size: 20px;
+  border-radius: 1234px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: ${props => props.color};
   cursor: pointer;
-  margin-top: 8px;
+  //margin-top: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  transition: color 0.2s;
+  letter-spacing: -0.5%;
 
   &:hover {
-    background-color: #d0d0d0;
+    background-color: transparent;
   }
+`;
+
+export const AddTaskButtonContainer = styled.div`
+background-color: white;
+  border-radius: 24px;
+  padding: 12px;
+  //margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
 `;

@@ -26,6 +26,13 @@ export interface DragItem {
     index: number;
 };
 
+export interface DragItem {
+  type: string;
+  id: string;
+  index: number;
+  columnId: string;
+}
+
 export const ItemTypes = {
     TASK: 'task',
 } as const;

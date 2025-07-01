@@ -3,9 +3,9 @@ import { Column, Kanban, Task } from './types';
 
 const initialState: Kanban = {
   columns: [
-    { id: '1', title: 'To Do', color: '#FFECCC' },
-    { id: '2', title: 'In Progress', color: '#CCE6FF' },
-    { id: '3', title: 'Done', color: '#CCFFCC' },
+    { id: '1', title: 'To Do', color: '#4F46E5' },
+    { id: '2', title: 'In Progress', color: '#F59E0B' },
+    { id: '3', title: 'Done', color: '#22C55E' },
   ],
   tasks: [],
 };
@@ -37,10 +37,11 @@ const kanbanSlice = createSlice({
 ) => {
   const { dragIndex, hoverIndex, sourceColumn, targetColumn } = action.payload;
   
-  // Получаем все задачи исходной колонки
-  const sourceTasks = state.tasks.filter(t => t.columnId === sourceColumn);
+  // Находим задачу для перемещения по индексу и колонке
+  const sourceTasks = state.tasks
+    .filter(t => t.columnId === sourceColumn)
+    .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
   
-  // Находим задачу для перемещения
   const taskToMove = sourceTasks[dragIndex];
   if (!taskToMove) return;
 
@@ -48,32 +49,37 @@ const kanbanSlice = createSlice({
   state.tasks = state.tasks.filter(t => t.id !== taskToMove.id);
 
   // Обновляем колонку у перемещаемой задачи
-  taskToMove.columnId = targetColumn;
+  const updatedTask = {
+    ...taskToMove,
+    columnId: targetColumn
+  };
 
-  // Получаем задачи целевой колонки (после удаления перемещаемой задачи)
-  const targetTasks = state.tasks.filter(t => t.columnId === targetColumn);
+  // Получаем все задачи целевой колонки
+  const targetTasks = state.tasks
+    .filter(t => t.columnId === targetColumn)
+    .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
 
   // Определяем новую позицию
-  let newIndex = hoverIndex;
-  if (sourceColumn === targetColumn) {
-    // Корректируем индекс при перемещении внутри одной колонки
-    if (dragIndex < hoverIndex) {
-      newIndex -= 1;
+  let newPosition = 0;
+  
+  if (targetTasks.length > 0) {
+    // Если в целевой колонке есть задачи
+    if (hoverIndex >= targetTasks.length) {
+      // Если перемещаем в конец
+      const lastTask = targetTasks[targetTasks.length - 1];
+      newPosition = state.tasks.indexOf(lastTask) + 1;
+    } else {
+      // Если перемещаем в середину
+      const taskAtPosition = targetTasks[hoverIndex];
+      newPosition = state.tasks.indexOf(taskAtPosition);
     }
+  } else {
+    // Если целевая колонка пустая, просто добавляем задачу
+    newPosition = state.tasks.length;
   }
 
   // Вставляем задачу в новую позицию
-  const updatedTargetTasks = [
-    ...targetTasks.slice(0, newIndex),
-    taskToMove,
-    ...targetTasks.slice(newIndex)
-  ];
-
-  // Объединяем все задачи
-  state.tasks = [
-    ...state.tasks.filter(t => t.columnId !== targetColumn),
-    ...updatedTargetTasks
-  ];
+  state.tasks.splice(newPosition, 0, updatedTask);
 },
     
     updateTask: (

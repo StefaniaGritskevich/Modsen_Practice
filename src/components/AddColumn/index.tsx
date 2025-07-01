@@ -1,47 +1,73 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addColumn } from '../../store/kanbanSlice';
-import { Button, Input, ColorPicker } from './styles';
+import { 
+  AddColumnContainer,
+  AddColumnButton,
+  AddColumnForm,
+  ColumnTitleInput,
+  ColorPickerContainer,
+  ColorLabel,
+  ColorPickerInput,
+  ButtonGroup,
+  SaveButton,
+  CancelButton,
+  PlusIcon
+} from './styles';
 
 const AddColumn: React.FC = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#FFFFFF');
+  const [color, setColor] = useState('#4F46E5');
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (title.trim()) {
       dispatch(addColumn({ title, color }));
       setTitle('');
-      setColor('#FFFFFF');
+      setColor('#4F46E5');
       setIsAdding(false);
     }
   };
 
   return (
-    <div style={{ minWidth: '280px', marginRight: '16px' }}>
+    <AddColumnContainer>
       {isAdding ? (
-        <div style={{ background: '#f5f5f5', padding: '16px', borderRadius: '8px' }}>
-          <Input
+        <AddColumnForm onSubmit={handleSubmit}>
+          <ColumnTitleInput
             autoFocus
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
             placeholder="Column title"
+            required
           />
-          <ColorPicker
-            type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-          />
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            <Button onClick={handleSubmit}>Add Column</Button>
-            <Button onClick={() => setIsAdding(false)}>Cancel</Button>
-          </div>
-        </div>
+          <ColorPickerContainer>
+            <ColorLabel>Color:</ColorLabel>
+            <ColorPickerInput
+              type="color"
+              value={color}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setColor(e.target.value)}
+            />
+          </ColorPickerContainer>
+          <ButtonGroup>
+            <SaveButton type="submit">Add Column</SaveButton>
+            <CancelButton 
+              type="button" 
+              onClick={() => setIsAdding(false)}
+            >
+              Cancel
+            </CancelButton>
+          </ButtonGroup>
+        </AddColumnForm>
       ) : (
-        <Button onClick={() => setIsAdding(true)}>+ Add Column</Button>
+       <AddColumnButton onClick={() => setIsAdding(true)}>
+        <svg viewBox="0 0 24 24">
+            <path d="M12 4V20M4 12H20" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        </AddColumnButton>
       )}
-    </div>
+    </AddColumnContainer>
   );
 };
 
