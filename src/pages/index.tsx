@@ -1,37 +1,14 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store';
-import Column from '../Column';
-import AddColumn from '../AddColumn';
-import styled from 'styled-components';
-import { moveTask } from '../../store/kanbanSlice';
+import { RootState } from '../store';
+import Column from '../components/Column';
+import AddColumn from '../components/AddColumn';
+import { moveTask } from '../store/kanbanSlice';
+import { BoardContainer, BoardHeader, BoardTitle } from './styles'
+import ErrorBoundary from '../components/ErrorBoundary';
+import { useState } from 'react';
 
-const BoardContainer = styled.div`
-  display: flex;
-  padding: 24px;
-  gap: 16px;
-  overflow-x: auto;
-  min-height: calc(100vh - 100px);
-  align-items: flex-start;
-`;
-
-const BoardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding:35px;
-  margin-bottom: 16px;
-  background-color: #F8FAFC;
-`;
-
-const BoardTitle = styled.h1`
-  font-size: 30px;
-  font-weight: 800;
-  color: #1e293b;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  margin: 0;
-`;
 
 export const KanbanBoard = () => {
   const dispatch = useDispatch();
@@ -48,6 +25,7 @@ export const KanbanBoard = () => {
   };
 
   return (
+    <ErrorBoundary>
     <div>
       <BoardHeader>
         <BoardTitle>Kanban Dashboard</BoardTitle>
@@ -64,7 +42,8 @@ export const KanbanBoard = () => {
           ))}
         </BoardContainer>
       </DndProvider>
-    </div>
+      </div>
+    </ErrorBoundary>
   );
 };
 

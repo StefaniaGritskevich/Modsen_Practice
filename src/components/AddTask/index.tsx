@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../../store/kanbanSlice';
 import { Priority } from '../../store/types';
+import ErrorBoundary from '../ErrorBoundary';
 import {
   AddTaskForm,
   PrioritySelect,
@@ -60,6 +61,7 @@ const AddTask: React.FC<AddTaskProps> = ({
   };
 
   return (
+    <ErrorBoundary>
     <AddTaskForm onSubmit={handleSubmit}>    
       <PrioritySelect
         value={priority || ''} 
@@ -95,6 +97,7 @@ const AddTask: React.FC<AddTaskProps> = ({
         )}
       </ButtonGroup>
     </AddTaskForm>
+    </ErrorBoundary>
   );
 };
 

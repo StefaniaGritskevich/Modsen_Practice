@@ -27,8 +27,8 @@ const kanbanSlice = createSlice({
     },
     
     moveTask: (
-  state,
-  action: PayloadAction<{
+    state,
+    action: PayloadAction<{
     dragIndex: number;
     hoverIndex: number;
     sourceColumn: string;
@@ -36,49 +36,43 @@ const kanbanSlice = createSlice({
   }>
 ) => {
   const { dragIndex, hoverIndex, sourceColumn, targetColumn } = action.payload;
-  
-  // Находим задачу для перемещения по индексу и колонке
+
   const sourceTasks = state.tasks
-    .filter(t => t.columnId === sourceColumn)
+    .filter(task => task.columnId === sourceColumn)
     .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
   
   const taskToMove = sourceTasks[dragIndex];
   if (!taskToMove) return;
 
-  // Удаляем задачу из текущего положения
-  state.tasks = state.tasks.filter(t => t.id !== taskToMove.id);
+  state.tasks = state.tasks.filter(task => task.id !== taskToMove.id);
 
-  // Обновляем колонку у перемещаемой задачи
   const updatedTask = {
     ...taskToMove,
     columnId: targetColumn
   };
 
-  // Получаем все задачи целевой колонки
   const targetTasks = state.tasks
-    .filter(t => t.columnId === targetColumn)
+    .filter(task => task.columnId === targetColumn)
     .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
 
-  // Определяем новую позицию
   let newPosition = 0;
   
   if (targetTasks.length > 0) {
-    // Если в целевой колонке есть задачи
+
     if (hoverIndex >= targetTasks.length) {
-      // Если перемещаем в конец
       const lastTask = targetTasks[targetTasks.length - 1];
       newPosition = state.tasks.indexOf(lastTask) + 1;
     } else {
-      // Если перемещаем в середину
+
       const taskAtPosition = targetTasks[hoverIndex];
       newPosition = state.tasks.indexOf(taskAtPosition);
     }
   } else {
-    // Если целевая колонка пустая, просто добавляем задачу
+
     newPosition = state.tasks.length;
   }
 
-  // Вставляем задачу в новую позицию
+  
   state.tasks.splice(newPosition, 0, updatedTask);
 },
     
@@ -86,7 +80,7 @@ const kanbanSlice = createSlice({
       state,
       action: PayloadAction<{ id: string; updates: Partial<Task> }>
     ) => {
-      const task = state.tasks.find((t) => t.id === action.payload.id);
+      const task = state.tasks.find((task) => task.id === action.payload.id);
       if (task) Object.assign(task, action.payload.updates);
     },
     
@@ -103,7 +97,7 @@ const kanbanSlice = createSlice({
     },
     
     deleteColumn: (state, action: PayloadAction<string>) => {
-      state.columns = state.columns.filter((col) => col.id !== action.payload);
+      state.columns = state.columns.filter((column) => column.id !== action.payload);
       state.tasks = state.tasks.filter((task) => task.columnId !== action.payload);
     },
     updateColumn: (state, action: PayloadAction<{ id: string; updates: Partial<Column> }>) => {
