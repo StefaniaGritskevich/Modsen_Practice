@@ -5,7 +5,7 @@ import { RootState } from '../../store';
 import { ColumnContainer, ColumnTitle, TaskList, AddTaskButton, DeleteColumnButton, AddTaskButtonContainer, ColumnTitleInput } from './styles';
 import TaskCard from '../TaskCard';
 import AddTask from '../AddTask';
-import { ItemTypes, DragItem } from '../../store/types'; // Добавляем импорт DragItem
+import { ItemTypes, DragItem } from '../../store/types';
 import { deleteColumn, updateColumn } from '../../store/kanbanSlice';
 
 interface ColumnProps {
