@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Column, Kanban, Task } from './types';
+const PROTECTED_COLUMN_IDS = ['1', '2', '3']; 
 
 const initialState: Kanban = {
   columns: [
@@ -97,6 +98,9 @@ const kanbanSlice = createSlice({
     },
     
     deleteColumn: (state, action: PayloadAction<string>) => {
+       if (PROTECTED_COLUMN_IDS.includes(action.payload)) {
+        return; 
+      }
       state.columns = state.columns.filter((column) => column.id !== action.payload);
       state.tasks = state.tasks.filter((task) => task.columnId !== action.payload);
     },
