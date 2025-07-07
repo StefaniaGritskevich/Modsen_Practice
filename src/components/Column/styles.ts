@@ -65,7 +65,6 @@ export const AddTaskButton = styled.button<{ color: string }>`
   font-family: 'Plus Jakarta Sans', sans-serif;
   color: ${props => props.color};
   cursor: pointer;
-  //margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -100,5 +99,25 @@ export const ColumnTitleInput = styled.input`
   &:focus {
     outline: none;
     border-color: #94A3B8;
+  }
+`;
+
+export const ToggleTasksButton = styled.button<{ color: string }>`
+  background: none;
+  border: none;
+  color: ${props => props.color};
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 9999px;
+
+  &:hover {
+    background-color: ${props => rgba(props.color, 0.1)};
   }
 `;
