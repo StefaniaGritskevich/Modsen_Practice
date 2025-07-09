@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Column, Kanban, Task } from './types';
-const PROTECTED_COLUMN_IDS = ['1', '2', '3']; 
+import { PROTECTED_COLUMN_IDS } from '../constants/constants';
 
 const initialState: Kanban = {
   columns: [
@@ -22,72 +22,69 @@ const kanbanSlice = createSlice({
       };
       state.tasks.push(newTask);
     },
-    
+
     deleteTask: (state, action: PayloadAction<string>) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
     },
-    
+
     moveTask: (
-    state,
-    action: PayloadAction<{
-    dragIndex: number;
-    hoverIndex: number;
-    sourceColumn: string;
-    targetColumn: string;
-  }>
-) => {
-  const { dragIndex, hoverIndex, sourceColumn, targetColumn } = action.payload;
+      state,
+      action: PayloadAction<{
+        dragIndex: number;
+        hoverIndex: number;
+        sourceColumn: string;
+        targetColumn: string;
+      }>,
+    ) => {
+      const { dragIndex, hoverIndex, sourceColumn, targetColumn } =
+        action.payload;
 
-  const sourceTasks = state.tasks
-    .filter(task => task.columnId === sourceColumn)
-    .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
-  
-  const taskToMove = sourceTasks[dragIndex];
-  if (!taskToMove) return;
+      const sourceTasks = state.tasks
+        .filter((task) => task.columnId === sourceColumn)
+        .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
 
-  state.tasks = state.tasks.filter(task => task.id !== taskToMove.id);
+      const taskToMove = sourceTasks[dragIndex];
+      if (!taskToMove) return;
 
-  const updatedTask = {
-    ...taskToMove,
-    columnId: targetColumn
-  };
+      state.tasks = state.tasks.filter((task) => task.id !== taskToMove.id);
 
-  const targetTasks = state.tasks
-    .filter(task => task.columnId === targetColumn)
-    .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
+      const updatedTask = {
+        ...taskToMove,
+        columnId: targetColumn,
+      };
 
-  let newPosition = 0;
-  
-  if (targetTasks.length > 0) {
+      const targetTasks = state.tasks
+        .filter((task) => task.columnId === targetColumn)
+        .sort((a, b) => state.tasks.indexOf(a) - state.tasks.indexOf(b));
 
-    if (hoverIndex >= targetTasks.length) {
-      const lastTask = targetTasks[targetTasks.length - 1];
-      newPosition = state.tasks.indexOf(lastTask) + 1;
-    } else {
+      let newPosition = 0;
 
-      const taskAtPosition = targetTasks[hoverIndex];
-      newPosition = state.tasks.indexOf(taskAtPosition);
-    }
-  } else {
+      if (targetTasks.length > 0) {
+        if (hoverIndex >= targetTasks.length) {
+          const lastTask = targetTasks[targetTasks.length - 1];
+          newPosition = state.tasks.indexOf(lastTask) + 1;
+        } else {
+          const taskAtPosition = targetTasks[hoverIndex];
+          newPosition = state.tasks.indexOf(taskAtPosition);
+        }
+      } else {
+        newPosition = state.tasks.length;
+      }
 
-    newPosition = state.tasks.length;
-  }
+      state.tasks.splice(newPosition, 0, updatedTask);
+    },
 
-  
-  state.tasks.splice(newPosition, 0, updatedTask);
-},
-    
     updateTask: (
       state,
-      action: PayloadAction<{ id: string; updates: Partial<Task> }>
+      action: PayloadAction<{ id: string; updates: Partial<Task> }>,
     ) => {
       const task = state.tasks.find((task) => task.id === action.payload.id);
       if (task) Object.assign(task, action.payload.updates);
     },
-    
+
     addColumn: (
       state,
-      action: PayloadAction<{ title: string; color: string }>
+      action: PayloadAction<{ title: string; color: string }>,
     ) => {
       const newColumn = {
         id: crypto.randomUUID(),
@@ -96,20 +93,27 @@ const kanbanSlice = createSlice({
       };
       state.columns.push(newColumn);
     },
-    
+
     deleteColumn: (state, action: PayloadAction<string>) => {
-       if (PROTECTED_COLUMN_IDS.includes(action.payload)) {
-        return; 
+      if (PROTECTED_COLUMN_IDS.includes(action.payload)) {
+        return;
       }
-      state.columns = state.columns.filter((column) => column.id !== action.payload);
-      state.tasks = state.tasks.filter((task) => task.columnId !== action.payload);
+      state.columns = state.columns.filter(
+        (column) => column.id !== action.payload,
+      );
+      state.tasks = state.tasks.filter(
+        (task) => task.columnId !== action.payload,
+      );
     },
-    updateColumn: (state, action: PayloadAction<{ id: string; updates: Partial<Column> }>) => {
-  const column = state.columns.find(col => col.id === action.payload.id);
-  if (column) {
-    Object.assign(column, action.payload.updates);
-  }
-}
+    updateColumn: (
+      state,
+      action: PayloadAction<{ id: string; updates: Partial<Column> }>,
+    ) => {
+      const column = state.columns.find((col) => col.id === action.payload.id);
+      if (column) {
+        Object.assign(column, action.payload.updates);
+      }
+    },
   },
 });
 
@@ -120,7 +124,7 @@ export const {
   updateTask,
   addColumn,
   deleteColumn,
-  updateColumn
+  updateColumn,
 } = kanbanSlice.actions;
 
 export default kanbanSlice.reducer;

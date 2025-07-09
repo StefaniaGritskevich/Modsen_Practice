@@ -1,30 +1,30 @@
 export type Priority = 'Low' | 'Medium' | 'High';
 
 export interface Column {
-    id: string;
-    title: string;
-    color: string;
-};
+  id: string;
+  title: string;
+  color: string;
+}
 
 export interface Task {
-    id: string;
-    columnId: string;
-    title: string;
-    description: string;
-    priority?: Priority;
-};
+  id: string;
+  columnId: string;
+  title: string;
+  description: string;
+  priority?: Priority;
+}
 
 export interface Kanban {
-    columns: Column[];
-    tasks: Task[];
-};
+  columns: Column[];
+  tasks: Task[];
+}
 
 export interface DragItem {
-    type: string;
-    id: string;
-    columnId: string;
-    index: number;
-};
+  type: string;
+  id: string;
+  columnId: string;
+  index: number;
+}
 
 export interface DragItem {
   type: string;
@@ -34,5 +34,5 @@ export interface DragItem {
 }
 
 export const ItemTypes = {
-    TASK: 'task',
+  TASK: 'task',
 } as const;

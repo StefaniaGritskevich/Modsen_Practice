@@ -1,50 +1,52 @@
 import styled from 'styled-components';
 import { rgba } from 'polished';
+import { ConnectDropTarget } from 'react-dnd';
 
-export const ColumnContainer = styled.div<{ ref?: any }>`
-  background-color: #F8FAFC;
-  border-radius: 32px;
-  padding: 16px;
-  width: 280px;
-  margin-right: 16px;
+export const ColumnContainer = styled.div<{ ref?: ConnectDropTarget }>`
+  background-color: ${(props) => props.theme.colors.columnBackground};
+  border-radius: ${(props) => props.theme.sizes.column.borderRadius};
+  padding: ${(props) => props.theme.sizes.column.padding};
+  width: ${(props) => props.theme.sizes.column.width};
+  margin-right: ${(props) => props.theme.sizes.column.margin};
 `;
 
 export const DeleteColumnButton = styled.button`
   background: none;
   border: none;
-  color: #666;
+  color: ${(props) => props.theme.colors.deleteButton};
   cursor: pointer;
-  font-size: 18px;
+  font-size: ${(props) => props.theme.sizes.icon.small};
   margin-left: auto;
   padding: 0 8px;
+  transition: ${(props) => props.theme.transitions.default};
 
   &:hover {
-    color: #ff0000;
+    color: ${(props) => props.theme.colors.deleteButtonHover};
   }
 `;
 
 export const ColumnTitle = styled.div<{ color: string }>`
   font-size: 16px;
   font-weight: 700;
-  margin: 0 0 16px 0;
-  color: #ffffff;
+  margin: 0 0 ${(props) => props.theme.sizes.gap} 0;
+  color: ${(props) => props.theme.colors.buttonText};
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border-radius: 9999px;
-  background-color: ${props => props.color};
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: ${(props) => props.theme.sizes.title.padding};
+  border-radius: ${(props) => props.theme.sizes.title.borderRadius};
+  background-color: ${(props) => props.color};
+  font-family: ${(props) => props.theme.typography.button.fontFamily};
 
   span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 33px;
-    height: 32px;
-    background-color: #ffffff;
-    color: ${props => rgba(props.color, 0.3)};
-    border-radius: 1234px;
-    margin-right: 8px;
+    width: ${(props) => props.theme.sizes.taskCounter.width};
+    height: ${(props) => props.theme.sizes.taskCounter.height};
+    background-color: ${(props) => props.theme.colors.taskCounterBg};
+    color: ${(props) => rgba(props.color, 0.3)};
+    border-radius: ${(props) => props.theme.sizes.taskCounter.borderRadius};
+    margin-right: ${(props) => props.theme.sizes.gap};
     font-size: 14px;
   }
 `;
@@ -55,69 +57,68 @@ export const TaskList = styled.div`
 `;
 
 export const AddTaskButton = styled.button<{ color: string }>`
-  
-  padding: 8px;
-  background-color: ${props => rgba(props.color, 0.1)};;
+  padding: ${(props) => props.theme.sizes.padding.button};
+  background-color: ${(props) => rgba(props.color, 0.1)};
   border: none;
-  border-radius: 1234px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: ${props => props.color};
+  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
+  font-size: ${(props) => props.theme.typography.button.fontSize};
+  font-weight: ${(props) => props.theme.typography.button.fontWeight};
+  font-family: ${(props) => props.theme.typography.button.fontFamily};
+  color: ${(props) => props.color};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  transition: color 0.2s;
+  transition: ${(props) => props.theme.transitions.default};
   letter-spacing: -0.5%;
 
   &:hover {
-    background-color: transparent;
+    background-color: ${(props) => props.theme.colors.addTaskButtonHover};
   }
 `;
 
 export const AddTaskButtonContainer = styled.div`
-background-color: white;
-  border-radius: 24px;
-  padding: 12px;
-  //margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.theme.colors.formBackground};
+  border-radius: ${(props) => props.theme.sizes.borderRadius.large};
+  padding: ${(props) => props.theme.sizes.padding.form};
+  box-shadow: ${(props) => props.theme.shadows.small};
   position: relative;
 `;
 
 export const ColumnTitleInput = styled.input`
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #E2E8F0;
-  border-radius: 9999px;
-  font-size: 16px;
+  padding: ${(props) => props.theme.sizes.padding.input};
+  border: 1px solid ${(props) => props.theme.colors.inputBorder};
+  border-radius: ${(props) => props.theme.sizes.title.borderRadius};
+  font-size: ${(props) => props.theme.typography.input.fontSize};
   font-weight: 700;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: white;
-  margin-bottom: 16px;
-  
+  font-family: ${(props) => props.theme.typography.input.fontFamily};
+  background-color: ${(props) => props.theme.colors.inputBackground};
+  margin-bottom: ${(props) => props.theme.sizes.gap};
+
   &:focus {
     outline: none;
-    border-color: #94A3B8;
+    border-color: ${(props) => props.theme.colors.inputFocusBorder};
   }
 `;
 
 export const ToggleTasksButton = styled.button<{ color: string }>`
   background: none;
   border: none;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 8px;
-  margin-top: 8px;
+  font-size: ${(props) => props.theme.typography.button.fontSize};
+  font-weight: ${(props) => props.theme.typography.button.fontWeight};
+  padding: ${(props) => props.theme.sizes.padding.button};
+  margin-top: ${(props) => props.theme.sizes.form.gapSmall};
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  border-radius: 9999px;
+  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
+  transition: ${(props) => props.theme.transitions.default};
 
   &:hover {
-    background-color: ${props => rgba(props.color, 0.1)};
+    background-color: ${(props) => rgba(props.color, 0.1)};
   }
 `;

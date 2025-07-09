@@ -5,21 +5,31 @@ import { updateTask, deleteTask } from '../../store/kanbanSlice';
 import { DragItem, ItemTypes } from '../../store/types';
 import { Task } from '../../store/types';
 import AddTask from '../AddTask'; // Импортируем компонент AddTask
-import { 
-  TaskCardContainer, 
-  TaskTitle, 
+import {
+  TaskCardContainer,
+  TaskTitle,
   TaskDescription,
-  PriorityLabel
+  PriorityLabel,
 } from './styles';
 
 interface TaskCardProps {
   task: Task;
   index: number;
   columnId: string;
-  moveTask: (dragIndex: number, hoverIndex: number, sourceColumn: string, targetColumn: string) => void;
+  moveTask: (
+    dragIndex: number,
+    hoverIndex: number,
+    sourceColumn: string,
+    targetColumn: string,
+  ) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) => {
+const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  index,
+  columnId,
+  moveTask,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const ref = React.useRef<HTMLDivElement>(null);
@@ -34,9 +44,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) 
 
   const [, drop] = useDrop({
     accept: ItemTypes.TASK,
-    hover(item: DragItem, monitor) {
+    hover(item: DragItem) {
       if (!ref.current) return;
-      
+
       const dragIndex = item.index;
       const hoverIndex = index;
       const sourceColumn = item.columnId;
@@ -61,19 +71,25 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) 
     description: string;
     priority?: 'Low' | 'Medium' | 'High';
   }) => {
-    dispatch(updateTask({
-      id: task.id,
-      updates: {
-        title: updatedTask.title,
-        description: updatedTask.description,
-        priority: updatedTask.priority
-      }
-    }));
+    dispatch(
+      updateTask({
+        id: task.id,
+        updates: {
+          title: updatedTask.title,
+          description: updatedTask.description,
+          priority: updatedTask.priority,
+        },
+      }),
+    );
     setIsEditing(false);
   };
 
   const handleDelete = () => {
     dispatch(deleteTask(task.id));
+  };
+
+  const handleEditing = () => {
+    setIsEditing(false);
   };
 
   if (isEditing) {
@@ -83,23 +99,25 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, columnId, moveTask }) 
         initialTask={{
           title: task.title,
           description: task.description,
-          priority: task.priority
+          priority: task.priority,
         }}
         onSave={handleSave}
         onDelete={handleDelete}
-        onClose={() => setIsEditing(false)}
+        onClose={handleEditing}
         isEditMode={true}
       />
     );
   }
 
   return (
-    <TaskCardContainer 
+    <TaskCardContainer
       ref={ref}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={handleEditClick}
     >
-      {task.priority && <PriorityLabel priority={task.priority}>{task.priority}</PriorityLabel>}
+      {task.priority && (
+        <PriorityLabel priority={task.priority}>{task.priority}</PriorityLabel>
+      )}
       <TaskTitle>{task.title}</TaskTitle>
       <TaskDescription>{task.description}</TaskDescription>
     </TaskCardContainer>
