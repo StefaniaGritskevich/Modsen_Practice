@@ -2,12 +2,22 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { ColumnContainer, ColumnTitle, TaskList, AddTaskButton, DeleteColumnButton, AddTaskButtonContainer, ColumnTitleInput, ToggleTasksButton } from './styles';
+import {
+  ColumnContainer,
+  ColumnTitle,
+  TaskList,
+  AddTaskButton,
+  DeleteColumnButton,
+  AddTaskButtonContainer,
+  ColumnTitleInput,
+  ToggleTasksButton,
+} from './styles';
 import TaskCard from '../TaskCard';
 import AddTask from '../AddTask';
 import { ItemTypes, DragItem } from '../../store/types';
 import { deleteColumn, updateColumn } from '../../store/kanbanSlice';
 import ErrorBoundary from '../ErrorBoundary';
+import { throttle } from '../../utils/helperFuncs';
 
 interface ColumnProps {
   column: {
@@ -15,7 +25,12 @@ interface ColumnProps {
     title: string;
     color: string;
   };
-  moveTask: (dragIndex: number, hoverIndex: number, sourceColumn: string, targetColumn: string) => void;
+  moveTask: (
+    dragIndex: number,
+    hoverIndex: number,
+    sourceColumn: string,
+    targetColumn: string,
+  ) => void;
 }
 
 const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
@@ -23,7 +38,8 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
   const [showAllTasks, setShowAllTasks] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const tasks = useSelector((state: RootState) =>
-    state.kanban.tasks.filter(task => task.columnId === column.id));
+    state.kanban.tasks.filter((task) => task.columnId === column.id),
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,12 +47,14 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
       setWindowWidth(window.innerWidth);
       if (window.innerWidth > 760) {
         setShowAllTasks(true);
+      } else {
+        setShowAllTasks(false);
       }
     };
     handleResize();
     const throttledResize = throttle(handleResize, 200);
     window.addEventListener('resize', throttledResize);
-    
+
     return () => {
       window.removeEventListener('resize', throttledResize);
     };
@@ -46,7 +64,7 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
     accept: ItemTypes.TASK,
     hover: (item: DragItem, monitor) => {
       if (!monitor.isOver({ shallow: true })) return;
-      
+
       if (item.columnId !== column.id) {
         moveTask(item.index, 0, item.columnId, column.id);
         item.index = 0;
@@ -61,7 +79,7 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
       dispatch(deleteColumn(column.id));
     }
   };
-   const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(column.title);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,82 +95,91 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
   const handleTitleBlur = () => {
     setIsEditing(false);
     if (newTitle.trim() && newTitle !== column.title) {
-      dispatch(updateColumn({ 
-        id: column.id, 
-        updates: { title: newTitle }
-      }));
+      dispatch(
+        updateColumn({
+          id: column.id,
+          updates: { title: newTitle },
+        }),
+      );
     } else {
       setNewTitle(column.title);
     }
   };
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    handleTitleBlur: () => void,
+  ) => {
+    if (e.key === 'Enter') {
+      handleTitleBlur();
+    }
+  };
+  const handlSetShowAllTasks = () => {
+    setShowAllTasks(!showAllTasks);
+  };
+  const handleSetIsAddingTask = () => {
+    setIsAddingTask(true);
+  };
+  const handleSetIsAddingTaskFalse = () => {
+    setIsAddingTask(false);
+  };
 
   return (
     <ErrorBoundary>
-    <ColumnContainer ref={drop}>
-      {isEditing ? (
-        <ColumnTitleInput
-          ref={titleInputRef}
-          value={newTitle}
-          onChange={handleTitleChange}
-          onBlur={handleTitleBlur}
-          onKeyDown={(e) => e.key === 'Enter' && handleTitleBlur()}
-        />
-      ) : (
-        <ColumnTitle color={column.color} onClick={handleTitleClick}>
-          <span>{tasks.length}</span> {column.title}
-          {!['1', '2', '3'].includes(column.id) && (
-            <DeleteColumnButton onClick={handleDeleteColumn}>×</DeleteColumnButton>
-          )}
-        </ColumnTitle>)}
-     <TaskList>
-      {tasks
-        .slice(0, showAllTasks || window.innerWidth > 760 ? tasks.length : 3)
-        .map((task, index) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            index={index}
-            columnId={column.id}
-            moveTask={moveTask}
+      <ColumnContainer ref={drop}>
+        {isEditing ? (
+          <ColumnTitleInput
+            ref={titleInputRef}
+            value={newTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            onKeyDown={(e) => handleKeyDown(e, handleTitleBlur)}
           />
-        ))}
-</TaskList>
-    {tasks.length > 3 && window.innerWidth <= 760 && (
-              <ToggleTasksButton 
-                onClick={() => setShowAllTasks(!showAllTasks)}
-                color={column.color}
-              >
-                {showAllTasks ? 'Скрыть' : `Показать еще (${tasks.length - 3})`}
-              </ToggleTasksButton>
+        ) : (
+          <ColumnTitle color={column.color} onClick={handleTitleClick}>
+            <span>{tasks.length}</span> {column.title}
+            {!['1', '2', '3'].includes(column.id) && (
+              <DeleteColumnButton onClick={handleDeleteColumn}>
+                ×
+              </DeleteColumnButton>
             )}
-      <AddTaskButtonContainer>
-        <AddTaskButton 
-          onClick={() => setIsAddingTask(true)}
-          color={column.color}
-        >
-          Add task...
-        </AddTaskButton>
-      </AddTaskButtonContainer>
+          </ColumnTitle>
+        )}
+        <TaskList>
+          {tasks
+            .slice(
+              0,
+              showAllTasks || window.innerWidth > 760 ? tasks.length : 3,
+            )
+            .map((task, index) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                index={index}
+                columnId={column.id}
+                moveTask={moveTask}
+              />
+            ))}
+        </TaskList>
+        {tasks.length > 3 && window.innerWidth <= 760 && (
+          <ToggleTasksButton
+            onClick={handlSetShowAllTasks}
+            color={column.color}
+          >
+            {showAllTasks ? 'Скрыть' : `Показать еще (${tasks.length - 3})`}
+          </ToggleTasksButton>
+        )}
+        <AddTaskButtonContainer>
+          <AddTaskButton onClick={handleSetIsAddingTask} color={column.color}>
+            Add task...
+          </AddTaskButton>
+        </AddTaskButtonContainer>
 
-      {isAddingTask && (
-        <AddTask 
-          columnId={column.id} 
-          onClose={() => setIsAddingTask(false)} 
-        />
-      )}
-    </ColumnContainer>
+        {isAddingTask && (
+          <AddTask columnId={column.id} onClose={handleSetIsAddingTaskFalse} />
+        )}
+      </ColumnContainer>
     </ErrorBoundary>
   );
-
-  function throttle(fn: Function, delay: number) {
-  let lastCall = 0;
-  return function (...args: any[]) {
-    const now = new Date().getTime();
-    if (now - lastCall < delay) return;
-    lastCall = now;
-    return fn(...args);
-  };
-}
 };
 
 export default Column;

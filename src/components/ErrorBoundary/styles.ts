@@ -5,43 +5,45 @@ export const ErrorContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background-color: #fff5f5;
-  border: 1px solid #ffcccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: ${({ theme }) => theme.sizes.padding.form};
+  background-color: ${({ theme }) => theme.colors.formBackground};
+  border: 1px solid ${({ theme }) => theme.colors.danger};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius.medium};
+  box-shadow: ${({ theme }) => theme.shadows.small};
   max-width: 500px;
   margin: 2rem auto;
   text-align: center;
 `;
 
 export const ErrorMessage = styled.div`
-  color: #d32f2f;
-  font-size: 1.1rem;
+  color: ${({ theme }) => theme.colors.danger};
+  font-size: ${({ theme }) => theme.typography.formText.fontSize};
   margin-bottom: 1.5rem;
   line-height: 1.5;
-  
+
   & strong {
-    font-weight: 600;
+    font-weight: ${({ theme }) => theme.typography.formTitle.fontWeight};
     display: block;
     margin-bottom: 0.5rem;
   }
 `;
 
 export const RetryButton = styled.button`
-  background-color: #d32f2f;
-  color: white;
+  background-color: ${({ theme }) => theme.colors.danger};
+  color: ${({ theme }) => theme.colors.buttonText};
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: ${({ theme }) => theme.sizes.padding.button};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius.small};
+  font-size: ${({ theme }) => theme.typography.button.fontSize};
+  font-weight: ${({ theme }) => theme.typography.button.fontWeight};
+  font-family: ${({ theme }) => theme.typography.button.fontFamily};
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  
+  transition: ${({ theme }) => theme.transitions.default};
+
   &:hover {
-    background-color: #b71c1c;
+    background-color: ${({ theme }) => theme.colors.dangerHover};
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.3);

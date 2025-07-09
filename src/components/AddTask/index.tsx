@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../../store/kanbanSlice';
 import { Priority } from '../../store/types';
@@ -10,7 +10,7 @@ import {
   DescriptionTextarea,
   SaveButton,
   DeleteButton,
-  ButtonGroup
+  ButtonGroup,
 } from './styles';
 
 interface AddTaskProps {
@@ -30,17 +30,21 @@ interface AddTaskProps {
   isEditMode?: boolean;
 }
 
-const AddTask: React.FC<AddTaskProps> = ({ 
-  columnId, 
-  initialTask, 
-  onSave, 
-  onDelete, 
+const AddTask: React.FC<AddTaskProps> = ({
+  columnId,
+  initialTask,
+  onSave,
+  onDelete,
   onClose,
-  isEditMode = false 
+  isEditMode = false,
 }) => {
   const [title, setTitle] = useState(initialTask?.title || '');
-  const [description, setDescription] = useState(initialTask?.description || '');
-  const [priority, setPriority] = useState<Priority | undefined>(initialTask?.priority);
+  const [description, setDescription] = useState(
+    initialTask?.description || '',
+  );
+  const [priority, setPriority] = useState<Priority | undefined>(
+    initialTask?.priority,
+  );
   const dispatch = useDispatch();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,53 +54,74 @@ const AddTask: React.FC<AddTaskProps> = ({
     if (isEditMode && onSave) {
       onSave({ title, description, priority });
     } else {
-      dispatch(addTask({
-        columnId,
-        title,
-        description,
-        priority: priority || undefined
-      }));
+      dispatch(
+        addTask({
+          columnId,
+          title,
+          description,
+          priority: priority || undefined,
+        }),
+      );
       onClose();
     }
   };
+  const handlePriorityChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setPriority(e.target.value ? (e.target.value as Priority) : undefined);
+    },
+    [],
+  );
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
+    },
+    [],
+  );
+  const handleDescriptionChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setDescription(e.target.value);
+    },
+    [],
+  );
 
   return (
     <ErrorBoundary>
-    <AddTaskForm onSubmit={handleSubmit}>    
-      <PrioritySelect
-        value={priority || ''} 
-        onChange={(e) => setPriority(e.target.value ? e.target.value as Priority : undefined)}
-      >
-        <option value="">No priority</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </PrioritySelect>
-      
-      <TaskTitleInput
-        type="text"
-        placeholder="Task title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      
-      <DescriptionTextarea
-        placeholder="Add description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      
-      <ButtonGroup>
-        <SaveButton type="submit">Save</SaveButton>
-        {isEditMode && onDelete && (
-          <DeleteButton type="button" onClick={onDelete}>Delete</DeleteButton>
-        )}
-        {!isEditMode && (
-          <DeleteButton type="button" onClick={onClose}>Cancel</DeleteButton>
-        )}
-      </ButtonGroup>
-    </AddTaskForm>
+      <AddTaskForm onSubmit={handleSubmit}>
+        <PrioritySelect value={priority || ''} onChange={handlePriorityChange}>
+          <option value="">No priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </PrioritySelect>
+
+        <TaskTitleInput
+          type="text"
+          placeholder="Task title"
+          value={title}
+          onChange={handleTitleChange}
+          required
+        />
+
+        <DescriptionTextarea
+          placeholder="Add description"
+          value={description}
+          onChange={handleDescriptionChange}
+        />
+
+        <ButtonGroup>
+          <SaveButton type="submit">Save</SaveButton>
+          {isEditMode && onDelete && (
+            <DeleteButton type="button" onClick={onDelete}>
+              Delete
+            </DeleteButton>
+          )}
+          {!isEditMode && (
+            <DeleteButton type="button" onClick={onClose}>
+              Cancel
+            </DeleteButton>
+          )}
+        </ButtonGroup>
+      </AddTaskForm>
     </ErrorBoundary>
   );
 };
