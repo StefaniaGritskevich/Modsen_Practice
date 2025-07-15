@@ -1,54 +1,72 @@
-import styled from 'styled-components';
 import { rgba } from 'polished';
 import { ConnectDropTarget } from 'react-dnd';
+import styled, { css, DefaultTheme } from 'styled-components';
 
-export const ColumnContainer = styled.div<{ ref?: ConnectDropTarget }>`
-  background-color: ${(props) => props.theme.colors.columnBackground};
-  border-radius: ${(props) => props.theme.sizes.column.borderRadius};
-  padding: ${(props) => props.theme.sizes.column.padding};
-  width: ${(props) => props.theme.sizes.column.width};
-  margin-right: ${(props) => props.theme.sizes.column.margin};
+interface ThemeProps {
+  theme: DefaultTheme;
+}
+
+interface ColorProps extends ThemeProps {
+  color: string;
+}
+
+interface DropTargetProps {
+  ref?: ConnectDropTarget;
+}
+
+export const ColumnContainer = styled.div<DropTargetProps>`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.columnBackground};
+    border-radius: ${theme.sizes.radius.xxl};
+    padding: ${theme.sizes.spacing.lg};
+    width: ${theme.sizes.components.column};
+    margin-right: ${theme.sizes.spacing.lg};
+  `}
 `;
 
 export const DeleteColumnButton = styled.button`
-  background: none;
-  border: none;
-  color: ${(props) => props.theme.colors.deleteButton};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.sizes.icon.small};
-  margin-left: auto;
-  padding: 0 8px;
-  transition: ${(props) => props.theme.transitions.default};
+  ${({ theme }) => css`
+    background: none;
+    border: none;
+    color: ${theme.colors.deleteButton};
+    cursor: pointer;
+    font-size: ${theme.sizes.icon.sm};
+    margin-left: auto;
+    padding: ${theme.sizes.padding.xxs};
+    transition: ${theme.transitions.default};
 
-  &:hover {
-    color: ${(props) => props.theme.colors.deleteButtonHover};
-  }
+    &:hover {
+      color: ${theme.colors.deleteButtonHover};
+    }
+  `}
 `;
 
 export const ColumnTitle = styled.div<{ color: string }>`
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0 0 ${(props) => props.theme.sizes.gap} 0;
-  color: ${(props) => props.theme.colors.buttonText};
-  display: flex;
-  align-items: center;
-  padding: ${(props) => props.theme.sizes.title.padding};
-  border-radius: ${(props) => props.theme.sizes.title.borderRadius};
-  background-color: ${(props) => props.color};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-
-  span {
-    display: inline-flex;
+  ${({ theme, color }) => css`
+    font-size: ${theme.typography.fontSize.md};
+    font-weight: ${theme.typography.fontWeight.bold};
+    margin: 0 0 ${theme.sizes.spacing.lg} 0;
+    color: ${theme.colors.globalBackground};
+    display: flex;
     align-items: center;
-    justify-content: center;
-    width: ${(props) => props.theme.sizes.taskCounter.width};
-    height: ${(props) => props.theme.sizes.taskCounter.height};
-    background-color: ${(props) => props.theme.colors.taskCounterBg};
-    color: ${(props) => rgba(props.color, 0.3)};
-    border-radius: ${(props) => props.theme.sizes.taskCounter.borderRadius};
-    margin-right: ${(props) => props.theme.sizes.gap};
-    font-size: 14px;
-  }
+    padding: ${theme.sizes.padding.sm};
+    border-radius: ${theme.sizes.radius.pill};
+    background-color: ${color};
+    font-family: ${theme.typography.fontFamily};
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: ${theme.sizes.components.taskCount};
+      height: ${theme.sizes.spacing.xxl};
+      background-color: ${theme.colors.globalBackground};
+      color: ${rgba(color, 0.3)};
+      border-radius: ${theme.sizes.radius.full};
+      margin-right: ${theme.sizes.spacing.lg};
+      font-size: ${theme.typography.fontSize.sm};
+    }
+  `}
 `;
 
 export const TaskList = styled.div`
@@ -57,68 +75,76 @@ export const TaskList = styled.div`
 `;
 
 export const AddTaskButton = styled.button<{ color: string }>`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: ${(props) => rgba(props.color, 0.1)};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  color: ${(props) => props.color};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  transition: ${(props) => props.theme.transitions.default};
-  letter-spacing: -0.5%;
+  ${({ theme, color }) => css`
+    padding: ${theme.sizes.padding.av};
+    background-color: ${rgba(color, 0.1)};
+    border: none;
+    border-radius: ${theme.sizes.radius.full};
+    font-size: ${theme.typography.fontSize.sm};
+    font-weight: ${theme.typography.fontWeight.semiBold};
+    font-family: ${theme.typography.fontFamily};
+    color: ${color};
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: ${theme.transitions.default};
+    letter-spacing: -0.5%;
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.addTaskButtonHover};
-  }
+    &:hover {
+      background-color: ${theme.colors.addTaskButtonHover};
+    }
+  `}
 `;
 
 export const AddTaskButtonContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.formBackground};
-  border-radius: ${(props) => props.theme.sizes.borderRadius.large};
-  padding: ${(props) => props.theme.sizes.padding.form};
-  box-shadow: ${(props) => props.theme.shadows.small};
-  position: relative;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.formBackground};
+    border-radius: ${theme.sizes.radius.lg};
+    padding: ${theme.sizes.padding.full};
+    box-shadow: ${theme.shadows.small};
+    position: relative;
+  `}
 `;
 
 export const ColumnTitleInput = styled.input`
-  width: 100%;
-  padding: ${(props) => props.theme.sizes.padding.input};
-  border: 1px solid ${(props) => props.theme.colors.inputBorder};
-  border-radius: ${(props) => props.theme.sizes.title.borderRadius};
-  font-size: ${(props) => props.theme.typography.input.fontSize};
-  font-weight: 700;
-  font-family: ${(props) => props.theme.typography.input.fontFamily};
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  margin-bottom: ${(props) => props.theme.sizes.gap};
+  ${({ theme }) => css`
+    width: 100%;
+    padding: ${theme.sizes.padding.bta};
+    border: 1px solid ${theme.colors.inputBorder};
+    border-radius: ${theme.sizes.radius.pill};
+    font-size: ${theme.typography.fontSize.sm};
+    font-weight: ${theme.typography.fontWeight.bold};
+    font-family: ${theme.typography.fontFamily};
+    background-color: ${theme.colors.globalBackground};
+    margin-bottom: ${theme.sizes.spacing.lg};
 
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.inputFocusBorder};
-  }
+    &:focus {
+      outline: none;
+      border-color: ${theme.colors.inputFocusBorder};
+    }
+  `}
 `;
 
 export const ToggleTasksButton = styled.button<{ color: string }>`
-  background: none;
-  border: none;
-  color: ${(props) => props.color};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  padding: ${(props) => props.theme.sizes.padding.button};
-  margin-top: ${(props) => props.theme.sizes.form.gapSmall};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  transition: ${(props) => props.theme.transitions.default};
+  ${({ theme, color }) => css`
+    background: none;
+    border: none;
+    color: ${color};
+    cursor: pointer;
+    font-size: ${theme.typography.fontSize.sm};
+    font-weight: ${theme.typography.fontWeight.semiBold};
+    padding: ${theme.sizes.padding.av};
+    margin-top: ${theme.sizes.spacing.xs};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-radius: ${theme.sizes.radius.full};
+    transition: ${theme.transitions.default};
 
-  &:hover {
-    background-color: ${(props) => rgba(props.color, 0.1)};
-  }
+    &:hover {
+      background-color: ${rgba(color, 0.1)};
+    }
+  `}
 `;

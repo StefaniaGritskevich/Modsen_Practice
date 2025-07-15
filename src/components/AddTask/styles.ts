@@ -1,186 +1,190 @@
-import styled from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
-export const AddTaskForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: ${(props) => props.theme.sizes.gap};
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: ${(props) => props.theme.sizes.padding.form};
-  background-color: ${(props) => props.theme.colors.formBackground};
-  border-radius: ${(props) => props.theme.sizes.borderRadius.large};
-  box-shadow: ${(props) => props.theme.shadows.medium};
-`;
+interface ThemeProps {
+  theme: DefaultTheme;
+}
 
-export const FormHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${(props) => props.theme.sizes.form.gapSmall};
-`;
-
-export const FormTitle = styled.h3`
-  margin: 0;
-  font-size: ${(props) => props.theme.typography.formTitle.fontSize};
-  font-weight: ${(props) => props.theme.typography.formTitle.fontWeight};
-  color: ${(props) => props.theme.colors.formTitle};
-  font-family: ${(props) => props.theme.typography.formTitle.fontFamily};
-`;
-
-export const CloseButton = styled.button`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: transparent;
-  color: ${(props) => props.theme.colors.textSecondary};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  width: fit-content;
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.danger};
-    color: ${(props) => props.theme.colors.buttonText};
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-`;
 const getSelectArrow = (color: string) =>
   `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='${encodeURIComponent(color)}' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`;
 
-export const PrioritySelect = styled.select`
-  padding: ${(props) => props.theme.sizes.title.padding};
+const buttonBaseStyles = ({ theme }: ThemeProps) => css`
+  padding: ${theme.sizes.padding.av};
   border: none;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  font-size: ${(props) => props.theme.typography.formText.fontSize};
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.formText.fontFamily};
-  color: ${(props) => props.theme.colors.formText};
-  background-color: ${(props) => props.theme.colors.priorityBg};
+  border-radius: ${theme.sizes.radius.full};
   cursor: pointer;
-  width: ${(props) => props.theme.sizes.select};
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  display: inline-block;
-  position: relative;
+  font-size: ${theme.typography.fontSize.sm};
+  font-weight: ${theme.typography.fontWeight.semiBold};
+  font-family: ${theme.typography.fontFamily};
+  transition: ${theme.transitions.default};
+  width: fit-content;
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px ${(props) => props.theme.colors.selectFocus};
+  &:active {
+    transform: scale(${theme.sizes.components.transform});
   }
+`;
 
-  background-image: ${(props) =>
-    getSelectArrow(props.theme.colors.selectArrow)};
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 12px 8px;
+export const AddTaskForm = styled.form`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.sizes.spacing.lg};
+    margin-top: ${theme.sizes.spacing.pt};
+    margin-bottom: ${theme.sizes.spacing.pt};
+    padding: ${theme.sizes.padding.full};
+    background-color: ${theme.colors.formBackground};
+    border-radius: ${theme.sizes.radius.lg};
+    box-shadow: ${theme.shadows.medium};
+  `}
+`;
+
+export const FormHeader = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: ${theme.sizes.spacing.xs};
+  `}
+`;
+
+export const FormTitle = styled.h3`
+  ${({ theme }) => css`
+    margin: 0;
+    font-size: ${theme.typography.fontSize.sm};
+    font-weight: ${theme.typography.fontWeight.semiBold};
+    color: ${theme.colors.darkGray};
+    font-family: ${theme.typography.fontFamily};
+  `}
+`;
+
+export const CloseButton = styled.button`
+  ${({ theme }) => css`
+    ${buttonBaseStyles({ theme })}
+    background-color: transparent;
+    color: ${theme.colors.slateGray};
+
+    &:hover {
+      background-color: ${theme.colors.danger};
+      color: ${theme.colors.buttonText};
+    }
+  `}
+`;
+
+export const PrioritySelect = styled.select`
+  ${({ theme }) => css`
+    padding: ${theme.sizes.padding.sm};
+    border: none;
+    border-radius: ${theme.sizes.radius.full};
+    font-size: ${theme.typography.fontSize.md};
+    font-weight: ${theme.typography.fontWeight.semiBold};
+    font-family: ${theme.typography.fontFamily};
+    color: ${theme.colors.darkGray};
+    background-color: ${theme.colors.priorityBg};
+    cursor: pointer;
+    width: ${theme.sizes.components.input};
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    position: relative;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px ${theme.colors.selectFocus};
+    }
+
+    background-image: ${getSelectArrow(theme.colors.selectArrow)};
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: ${theme.sizes.padding.smr};
+  `}
 `;
 
 export const TaskTitleInput = styled.input`
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  font-size: ${(props) => props.theme.typography.formText.fontSize};
-  font-weight: ${(props) => props.theme.typography.tittle.fontWeight};
-  font-family: ${(props) => props.theme.typography.formText.fontFamily};
-  color: ${(props) => props.theme.colors.formText};
-  background-color: transparent;
-  width: auto;
-  max-width: 100%;
-  display: inline-block;
+  ${({ theme }) => css`
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-size: ${theme.typography.fontSize.md};
+    font-weight: ${theme.typography.fontWeight.bold};
+    font-family: ${theme.typography.fontFamily};
+    color: ${theme.colors.darkGray};
+    background-color: transparent;
+    width: auto;
+    max-width: 100%;
+    display: inline-block;
 
-  &::placeholder {
-    color: ${(props) => props.theme.colors.placeholder};
-  }
+    &::placeholder {
+      color: ${theme.colors.placeholder};
+    }
 
-  &:focus {
-    outline: none;
-  }
+    &:focus {
+      outline: none;
+    }
 
-  &:not(:placeholder-shown) {
-    border-bottom: 1px solid transparent;
-  }
+    &:not(:placeholder-shown) {
+      border-bottom: 1px solid transparent;
+    }
+  `}
 `;
 
 export const DescriptionTextarea = styled.textarea`
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  font-size: ${(props) => props.theme.typography.formText.fontSize};
-  font-weight: ${(props) => props.theme.typography.formText.fontWeight};
-  font-family: ${(props) => props.theme.typography.formText.fontFamily};
-  background-color: transparent;
-  min-height: 30px;
-  resize: none;
-  display: block;
-  line-height: 1.6;
+  ${({ theme }) => css`
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-size: ${theme.typography.fontSize.md};
+    font-weight: ${theme.typography.fontWeight.regular};
+    font-family: ${theme.typography.fontFamily};
+    background-color: transparent;
+    min-height: ${theme.sizes.components.columnThirty};
+    resize: none;
+    display: block;
+    line-height: ${theme.sizes.components.line};
 
-  &::placeholder {
-    color: ${(props) => props.theme.colors.placeholder};
-  }
+    &::placeholder {
+      color: ${theme.colors.placeholder};
+    }
 
-  &:focus {
-    outline: none;
-  }
+    &:focus {
+      outline: none;
+    }
 
-  &:not(:placeholder-shown) {
-    border-bottom: 1px solid transparent;
-  }
+    &:not(:placeholder-shown) {
+      border-bottom: 1px solid transparent;
+    }
+  `}
 `;
 
 export const SaveButton = styled.button`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: transparent;
-  color: ${(props) => props.theme.colors.textSecondary};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  width: fit-content;
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
+  ${({ theme }) => css`
+    ${buttonBaseStyles({ theme })}
+    background-color: transparent;
+    color: ${theme.colors.slateGray};
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.success};
-    color: ${(props) => props.theme.colors.buttonText};
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
+    &:hover {
+      background-color: ${theme.colors.success};
+      color: ${theme.colors.buttonText};
+    }
+  `}
 `;
 
 export const ButtonGroup = styled.div`
-  display: flex;
-  gap: ${(props) => props.theme.sizes.form.gapMedium};
-  margin-top: ${(props) => props.theme.sizes.form.gapMedium};
+  ${({ theme }) => css`
+    display: flex;
+    gap: ${theme.sizes.spacing.sm};
+    margin-top: ${theme.sizes.spacing.sm};
+  `}
 `;
 
 export const DeleteButton = styled.button`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: transparent;
-  color: ${(props) => props.theme.colors.textSecondary};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.form.borderRadiusFull};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  width: fit-content;
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
+  ${({ theme }) => css`
+    ${buttonBaseStyles({ theme })}
+    background-color: transparent;
+    color: ${theme.colors.slateGray};
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.danger};
-    color: ${(props) => props.theme.colors.buttonText};
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
+    &:hover {
+      background-color: ${theme.colors.danger};
+      color: ${theme.colors.buttonText};
+    }
+  `}
 `;

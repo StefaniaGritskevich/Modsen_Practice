@@ -1,13 +1,15 @@
-import React from 'react';
 import './App.css';
-import KanbanBoard from './pages';
+
+import {useState} from 'react';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './styles/theme';
+
 import { ThemeContext } from './components/ThemeContext/ThemeContext';
-import { GlobalStyles } from './components/GlobalStyle/GlobalStyle';
+import KanbanBoard from './pages';
+import { GlobalStyles } from './styles/GlobalStyle';
+import { darkTheme, lightTheme } from './styles/theme';
 
 function App() {
-  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const toggleTheme = () => {
     setIsDarkTheme((prev) => !prev);
   };

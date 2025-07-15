@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Column, Kanban, Task } from './types';
-import { PROTECTED_COLUMN_IDS } from '../constants/constants';
+
+import { PROTECTED_COLUMN_IDS } from '../constants';
+import { Column, Kanban, Task } from '../types/types';
 
 const initialState: Kanban = {
   columns: [

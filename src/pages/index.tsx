@@ -1,19 +1,20 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import Column from '../components/Column';
+import { useDispatch, useSelector } from 'react-redux';
+
 import AddColumn from '../components/AddColumn';
+import Column from '../components/Column';
+import ErrorBoundary from '../components/ErrorBoundary';
+import { useTheme } from '../components/ThemeContext/ThemeContext';
+import { RootState } from '../store';
 import { moveTask } from '../store/kanbanSlice';
 import {
   BoardContainer,
   BoardHeader,
   BoardTitle,
-  ThemeToggleButton,
   ButtonContainer,
+  ThemeToggleButton,
 } from './styles';
-import ErrorBoundary from '../components/ErrorBoundary';
-import { useTheme } from '../components/ThemeContext/ThemeContext';
 
 export const KanbanBoard = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,19 @@
-import styled from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
+interface ThemeProps {
+  theme: DefaultTheme;
+}
+
+const buttonBaseStyles = ({ theme }: ThemeProps) => css`
+  padding: ${theme.sizes.padding.av};
+  border: none;
+  border-radius: ${theme.sizes.radius.md};
+  cursor: pointer;
+  font-size: ${theme.typography.fontSize.sm};
+  font-weight: ${theme.typography.fontWeight.semiBold};
+  font-family: ${theme.typography.fontFamily};
+  transition: ${theme.transitions.default};
+  flex: 1;
+`;
 
 export const AddColumnContainer = styled.div`
   min-width: fit-content;
@@ -6,123 +21,127 @@ export const AddColumnContainer = styled.div`
 `;
 
 export const PlusIcon = styled.span`
-  font-size: ${(props) => props.theme.sizes.icon.small};
-  font-weight: bold;
-  color: ${(props) => props.theme.colors.textSecondary};
+  ${({ theme }) => css`
+    font-size: ${theme.sizes.icon.sm};
+    font-weight: bold;
+    color: ${theme.colors.slateGray};
+  `}
 `;
 
 export const AddColumnButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.sizes.borderRadius.circle};
-  cursor: pointer;
-  transition: ${(props) => props.theme.transitions.default};
-  box-shadow: ${(props) => props.theme.shadows.small};
-  padding: 0;
-  background-color: ${(props) => props.theme.colors.formBackground};
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: ${theme.sizes.components.columnForty};
+    height: ${theme.sizes.components.columnForty};
+    border: 1px solid ${theme.colors.border};
+    border-radius: ${theme.sizes.radius.full};
+    cursor: pointer;
+    transition: ${theme.transitions.default};
+    box-shadow: ${theme.shadows.small};
+    padding: 0;
+    background-color: ${theme.colors.formBackground};
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.formBackground};
-    transform: translateY(-1px);
-    border-color: ${(props) => props.theme.colors.borderHover};
-  }
+    &:hover {
+      background-color: ${theme.colors.formBackground};
+      transform: translateY(-1px);
+      border-color: ${theme.colors.borderHover};
+    }
 
-  svg {
-    width: ${(props) => props.theme.sizes.icon.medium};
-    height: ${(props) => props.theme.sizes.icon.medium};
-    fill: ${(props) => props.theme.colors.textSecondary};
-  }
+    svg {
+      width: ${theme.sizes.icon.md};
+      height: ${theme.sizes.icon.md};
+      fill: ${theme.colors.slateGray};
+    }
+  `}
 `;
 
 export const AddColumnForm = styled.form`
-  background: ${(props) => props.theme.colors.formBackground};
-  padding: ${(props) => props.theme.sizes.padding.form};
-  border-radius: ${(props) => props.theme.sizes.borderRadius.large};
-  box-shadow: ${(props) => props.theme.shadows.medium};
-  width: 280px;
-  border: 1px solid ${(props) => props.theme.colors.inputBorder};
+  ${({ theme }) => css`
+    background: ${theme.colors.formBackground};
+    padding: ${theme.sizes.padding.full};
+    border-radius: ${theme.sizes.radius.lg};
+    box-shadow: ${theme.shadows.medium};
+    width: ${theme.sizes.components.column};
+    border: 1px solid ${theme.colors.inputBorder};
+  `}
 `;
 
 export const ColumnTitleInput = styled.input`
-  padding: ${(props) => props.theme.sizes.padding.input};
-  border: 1px solid ${(props) => props.theme.colors.inputBorder};
-  border-radius: ${(props) => props.theme.sizes.borderRadius.medium};
-  font-size: ${(props) => props.theme.typography.input.fontSize};
-  width: 100%;
-  margin-bottom: ${(props) => props.theme.sizes.gap};
-  font-family: ${(props) => props.theme.typography.input.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
+  ${({ theme }) => css`
+    padding: ${theme.sizes.padding.bta};
+    border: 1px solid ${theme.colors.inputBorder};
+    border-radius: ${theme.sizes.radius.md};
+    font-size: ${theme.typography.fontSize.sm};
+    width: 100%;
+    margin-bottom: ${theme.sizes.spacing.lg};
+    font-family: ${theme.typography.fontFamily};
+    transition: ${theme.transitions.default};
 
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.inputFocusBorder};
-    box-shadow: 0 0 0 2px ${(props) => props.theme.colors.inputFocusShadow};
-  }
+    &:focus {
+      outline: none;
+      border-color: ${theme.colors.inputFocusBorder};
+      box-shadow: 0 0 0 2px ${theme.colors.inputFocusShadow};
+    }
+  `}
 `;
 
 export const ColorPickerContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${(props) => props.theme.sizes.gap};
-  margin-bottom: ${(props) => props.theme.sizes.gap};
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    gap: ${theme.sizes.spacing.lg};
+    margin-bottom: ${theme.sizes.spacing.lg};
+  `}
 `;
 
 export const ColorLabel = styled.span`
-  font-size: ${(props) => props.theme.typography.label.fontSize};
-  color: ${(props) => props.theme.colors.textSecondary};
-  font-family: ${(props) => props.theme.typography.label.fontFamily};
+  ${({ theme }) => css`
+    font-size: ${theme.typography.fontSize.sm};
+    color: ${theme.colors.slateGray};
+    font-family: ${theme.typography.fontFamily};
+  `}
 `;
 
 export const ColorPickerInput = styled.input`
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.borderRadius.small};
-  cursor: pointer;
-  padding: 0;
+  ${({ theme }) => css`
+    width: ${theme.sizes.components.columnThirty};
+    height: ${theme.sizes.components.columnThirty};
+    border: none;
+    border-radius: ${theme.sizes.radius.sm};
+    cursor: pointer;
+    padding: 0;
+  `}
 `;
 
 export const ButtonGroup = styled.div`
-  display: flex;
-  gap: ${(props) => props.theme.sizes.gap};
+  ${({ theme }) => css`
+    display: flex;
+    gap: ${theme.sizes.spacing.lg};
+  `}
 `;
 
 export const SaveButton = styled.button`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: ${(props) => props.theme.colors.primary};
-  color: ${(props) => props.theme.colors.buttonText};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.borderRadius.medium};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
-  flex: 1;
+  ${({ theme }) => css`
+    ${buttonBaseStyles}
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.buttonText};
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.primaryHover};
-  }
+    &:hover {
+      background-color: ${theme.colors.primaryHover};
+    }
+  `}
 `;
 
 export const CancelButton = styled.button`
-  padding: ${(props) => props.theme.sizes.padding.button};
-  background-color: ${(props) => props.theme.colors.secondary};
-  color: ${(props) => props.theme.colors.textSecondary};
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.borderRadius.medium};
-  cursor: pointer;
-  font-size: ${(props) => props.theme.typography.button.fontSize};
-  font-weight: ${(props) => props.theme.typography.button.fontWeight};
-  font-family: ${(props) => props.theme.typography.button.fontFamily};
-  transition: ${(props) => props.theme.transitions.default};
-  flex: 1;
+  ${({ theme }) => css`
+    ${buttonBaseStyles}
+    background-color: ${theme.colors.secondary};
+    color: ${theme.colors.slateGray};
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.secondaryHover};
-  }
+    &:hover {
+      background-color: ${theme.colors.secondaryHover};
+    }
+  `}
 `;

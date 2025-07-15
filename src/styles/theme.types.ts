@@ -8,8 +8,8 @@ declare module 'styled-components' {
       inProgress: string;
       done: string;
       boardHeaderBack: string;
-      boardTitle: string;
-      textSecondary: string;
+      darkSlate: string;
+      slateGray: string;
       border: string;
       borderHover: string;
       primary: string;
@@ -21,8 +21,7 @@ declare module 'styled-components' {
       inputFocusBorder: string;
       inputFocusShadow: string;
       buttonText: string;
-      formText: string;
-      formTitle: string;
+      darkGray: string;
       danger: string;
       dangerHover: string;
       success: string;
@@ -34,88 +33,68 @@ declare module 'styled-components' {
       columnBackground: string;
       deleteButton: string;
       deleteButtonHover: string;
-      taskCounterBg: string;
       addTaskButtonHover: string;
-      inputBackground: string;
       priorityHighBg: string;
       priorityHighText: string;
       priorityMediumBg: string;
       priorityMediumText: string;
       priorityLowBg: string;
       priorityLowText: string;
-      taskCardBackground: string;
       taskTitle: string;
-      taskDescription: string;
       saveButton: string;
       saveButtonHover: string;
       deleteButtonDanger: string;
       deleteButtonDangerHover: string;
     };
     sizes: {
-      gridColumnWidth: string;
-      padding: {
-        boardContainer: string;
-        boardHeader: string;
-        form: string;
-        button: string;
-        input: string;
-      };
-      gap: string;
-      borderRadius: {
-        small: string;
-        medium: string;
-        large: string;
-        circle: string;
-      };
-      icon: {
-        small: string;
-        medium: string;
-      };
-      form: {
-        gapSmall: string;
-        gapMedium: string;
-        borderRadiusFull: string;
-      };
-      column: {
-        width: string;
-        padding: string;
-        margin: string;
-        borderRadius: string;
-      };
-      title: {
-        borderRadius: string;
-        padding: string;
-      };
-      taskCounter: {
-        width: string;
-        height: string;
-        borderRadius: string;
-      };
-      taskCard: {
-        borderRadius: string;
-        padding: string;
-        marginBottom: string;
-      };
-      priorityLabel: {
-        padding: string;
-        borderRadius: string;
-        marginBottom: string;
-      };
-      editForm: {
-        padding: string;
-        borderRadius: string;
-        gap: string;
-      };
-      input: {
-        padding: string;
-        borderRadius: string;
-      };
-      textarea: {
-        minHeight: string;
-      };
-      select: {
-        width: string;
-      };
+      unit: string;
+  spacing: {
+    xs: string;
+    pt: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    xxl: string;
+    xxxl: string;
+  };
+  components: {
+    gridColumn: string;
+    column: string;
+    input: string;
+    textarea: string;
+    taskCount: string;
+    columnForty: string;
+    columnThirty: string;
+    line: string;
+    transform:string;
+  };
+  padding: {
+    xxs: string;
+    xs: string;
+    sm: string;
+    smr:string;
+    av: string;
+    bta: string;
+    md: string;
+    lg: string;
+    full: string;
+  };
+  radius: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    xxl: string;
+    pill: string;
+    full: string;
+  };
+  icon: {
+    sm: string;
+    md: string;
+    lg: string;
+  };
     };
     breakpoints: {
       mobile: string;
@@ -125,37 +104,23 @@ declare module 'styled-components' {
       large: string;
     };
     typography: {
-      boardTitle: {
-        fontSize: string;
-        fontWeight: number;
-        fontFamily: string;
-      };
-      tittle: {
-        fontWeight: number;
-      };
-      button: {
-        fontSize: string;
-        fontWeight: number;
-        fontFamily: string;
-      };
-      input: {
-        fontSize: string;
-        fontFamily: string;
-      };
-      label: {
-        fontSize: string;
-        fontFamily: string;
-      };
-      formTitle: {
-        fontSize: string;
-        fontWeight: number;
-        fontFamily: string;
-      };
-      formText: {
-        fontSize: string;
-        fontWeight: number;
-        fontFamily: string;
-      };
+     fontFamily: string;
+  fontSize: {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    xxl: string;
+  };
+  fontWeight: {
+    light: number;
+    regular: number;
+    medium: number;
+    semiBold: number;
+    bold: number;
+    extraBold: number;
+  };
     };
     shadows: {
       small: string;

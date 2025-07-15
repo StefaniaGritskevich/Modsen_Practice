@@ -1,16 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { addTask } from '../../store/kanbanSlice';
-import { Priority } from '../../store/types';
+import { Priority } from '../../types/types';
 import ErrorBoundary from '../ErrorBoundary';
 import {
   AddTaskForm,
-  PrioritySelect,
-  TaskTitleInput,
-  DescriptionTextarea,
-  SaveButton,
-  DeleteButton,
   ButtonGroup,
+  DeleteButton,
+  DescriptionTextarea,
+  PrioritySelect,
+  SaveButton,
+  TaskTitleInput,
 } from './styles';
 
 interface AddTaskProps {

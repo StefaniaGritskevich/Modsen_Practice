@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+
 import { addColumn } from '../../store/kanbanSlice';
-import { AddColumnButton } from './styles';
 import { getRandomColor } from '../../utils/helperFuncs';
+import { AddColumnButton } from './styles';
 
 const AddColumn: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,87 +1,102 @@
-import styled from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
+
+interface ThemeProps {
+  theme: DefaultTheme;
+}
+
+interface ThemeToggleProps extends ThemeProps {
+  isDark: boolean;
+}
 
 export const BoardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(${(props) => props.theme.sizes.gridColumnWidth}, 1fr)
-  );
-  padding: ${(props) => props.theme.sizes.padding.boardContainer};
-  gap: ${(props) => props.theme.sizes.gap};
-  min-height: calc(100vh - 100px);
-  align-items: start;
-
-  @media (min-width: ${(props) => props.theme.breakpoints.desktop}) {
+  ${({ theme }) => css`
+    display: grid;
     grid-template-columns: repeat(
-      5,
-      minmax(${(props) => props.theme.sizes.gridColumnWidth}, 1fr)
+      auto-fill,
+      minmax(${theme.sizes.components.gridColumn}, 1fr)
     );
-  }
+    padding: ${theme.sizes.spacing.xl};
+    gap: ${theme.sizes.spacing.lg};
+    min-height: calc(100vh - 100px);
+    align-items: start;
 
-  @media (min-width: ${(props) => props.theme.breakpoints.laptop}) and (max-width: ${(props) =>props.theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(
-      4,
-      minmax(${(props) => props.theme.sizes.gridColumnWidth}, 1fr)
-    );
-  }
+    @media (min-width: ${theme.breakpoints.desktop}) {
+      grid-template-columns: repeat(
+        5,
+        minmax(${theme.sizes.components.gridColumn}, 1fr)
+      );
+    }
 
-  @media (min-width: ${(props) => props.theme.breakpoints.tablet}) and (max-width: ${(props) => props.theme.breakpoints.laptop}) {
-    grid-template-columns: repeat(
-      3,
-      minmax(${(props) => props.theme.sizes.gridColumnWidth}, 1fr)
-    );
-  }
+    @media (min-width: ${theme.breakpoints.laptop}) and (max-width: ${theme.breakpoints.desktop}) {
+      grid-template-columns: repeat(
+        4,
+        minmax(${theme.sizes.components.gridColumn}, 1fr)
+      );
+    }
 
-  @media (min-width: ${(props) => props.theme.breakpoints.mobile}) and (max-width: ${(props) => props.theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(
-      2,
-      minmax(${(props) => props.theme.sizes.gridColumnWidth}, 1fr)
-    );
-  }
+    @media (min-width: ${theme.breakpoints.tablet}) and (max-width: ${theme.breakpoints.laptop}) {
+      grid-template-columns: repeat(
+        3,
+        minmax(${theme.sizes.components.gridColumn}, 1fr)
+      );
+    }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-    place-items: center;
-  }
+    @media (min-width: ${theme.breakpoints.mobile}) and (max-width: ${theme.breakpoints.tablet}) {
+      grid-template-columns: repeat(
+        2,
+        minmax(${theme.sizes.components.gridColumn}, 1fr)
+      );
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}) {
+      grid-template-columns: 1fr;
+      place-items: center;
+    }
+  `}
 `;
 
 export const BoardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: ${(props) => props.theme.sizes.padding.boardHeader};
-  margin-bottom: ${(props) => props.theme.sizes.gap};
-  background-color: ${(props) => props.theme.colors.boardHeaderBack};
-  border-radius: ${(props) => props.theme.sizes.borderRadius};
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: ${theme.sizes.spacing.xxl};
+    margin-bottom: ${theme.sizes.spacing.lg};
+    background-color: ${theme.colors.boardHeaderBack};
+    border-radius: ${theme.sizes.radius.md};
+  `}
 `;
 
 export const BoardTitle = styled.h1`
-  font-size: ${(props) => props.theme.typography.boardTitle.fontSize};
-  font-weight: ${(props) => props.theme.typography.boardTitle.fontWeight};
-  color: ${(props) => props.theme.colors.boardTitle};
-  font-family: ${(props) => props.theme.typography.boardTitle.fontFamily};
-  margin: 0;
+  ${({ theme }) => css`
+    font-size: ${theme.typography.fontSize.xxl};
+    font-weight: ${theme.typography.fontWeight.extraBold};
+    color: ${theme.colors.darkSlate};
+    font-family: ${theme.typography.fontFamily};
+    margin: 0;
+  `}
 `;
 
-export const ThemeToggleButton = styled.button<{ isDark: boolean }>`
-  padding: 8px 12px;
-  background-color: ${(props) =>
-    props.isDark
-      ? props.theme.colors.boardHeaderBack
-      : props.theme.colors.boardHeaderBack};
-  color: white;
-  border: none;
-  border-radius: ${(props) => props.theme.sizes.borderRadius.medium};
-  cursor: pointer;
-  font-size: 16px;
-  transition: ${(props) => props.theme.transitions.default};
+export const ThemeToggleButton = styled.button<ThemeToggleProps>`
+  ${({ theme, isDark }) => css`
+    padding: ${theme.sizes.padding.sm};
+    background-color: ${theme.colors.boardHeaderBack};
+    color: white;
+    border: none;
+    border-radius: ${theme.sizes.radius.md};
+    cursor: pointer;
+    font-size: ${theme.typography.fontSize.md};
+    transition: ${theme.transitions.default};
 
-  &:hover {
-    opacity: 0.8;
-  }
+    &:hover {
+      opacity: 0.8;
+    }
+  `}
 `;
 
 export const ButtonContainer = styled.div`
-  display: flex;
-  gap: ${(props) => props.theme.sizes.gap};
+  ${({ theme }) => css`
+    display: flex;
+    gap: ${theme.sizes.spacing.lg};
+  `}
 `;
