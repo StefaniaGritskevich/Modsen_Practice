@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { updateTask, deleteTask } from '../../store/kanbanSlice';
-import { DragItem, ItemTypes } from '../../store/types';
-import { Task } from '../../store/types';
-import AddTask from '../AddTask'; // Импортируем компонент AddTask
+
+import { deleteTask, updateTask } from '../../store/kanbanSlice';
+import { DragItem, ItemTypes, Task } from '../../types/types';
+import AddTask from '../AddTask'; 
 import {
-  TaskCardContainer,
-  TaskTitle,
-  TaskDescription,
   PriorityLabel,
+  TaskCardContainer,
+  TaskDescription,
+  TaskTitle,
 } from './styles';
 
 interface TaskCardProps {
@@ -112,7 +112,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <TaskCardContainer
       ref={ref}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      isDragging={isDragging}
       onClick={handleEditClick}
     >
       {task.priority && (

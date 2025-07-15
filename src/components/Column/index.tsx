@@ -1,23 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { 
+  DEFAULT_VISIBLE_TASKS,
+  MOBILE_BREAKPOINT,
+  PROTECTED_COLUMN_IDS} from '../../constants';
 import { RootState } from '../../store';
+import { deleteColumn, updateColumn } from '../../store/kanbanSlice';
+import { DragItem, ItemTypes } from '../../types/types';
+import { throttle } from '../../utils/helperFuncs';
+import AddTask from '../AddTask';
+import ErrorBoundary from '../ErrorBoundary';
+import TaskCard from '../TaskCard';
 import {
+  AddTaskButton,
+  AddTaskButtonContainer,
   ColumnContainer,
   ColumnTitle,
-  TaskList,
-  AddTaskButton,
-  DeleteColumnButton,
-  AddTaskButtonContainer,
   ColumnTitleInput,
+  DeleteColumnButton,
+  TaskList,
   ToggleTasksButton,
 } from './styles';
-import TaskCard from '../TaskCard';
-import AddTask from '../AddTask';
-import { ItemTypes, DragItem } from '../../store/types';
-import { deleteColumn, updateColumn } from '../../store/kanbanSlice';
-import ErrorBoundary from '../ErrorBoundary';
-import { throttle } from '../../utils/helperFuncs';
 
 interface ColumnProps {
   column: {
@@ -105,14 +110,17 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
       setNewTitle(column.title);
     }
   };
-  const handleKeyDown = (
-    e: React.KeyboardEvent,
-    handleTitleBlur: () => void,
-  ) => {
-    if (e.key === 'Enter') {
-      handleTitleBlur();
-    }
-  };
+  
+  const handleTitleKeyDown = (e: React.KeyboardEvent) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleTitleBlur();
+  } else if (e.key === 'Escape') {
+    setNewTitle(column.title);
+    setIsEditing(false);
+  }
+};
+
   const handlSetShowAllTasks = () => {
     setShowAllTasks(!showAllTasks);
   };
@@ -132,12 +140,12 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
             value={newTitle}
             onChange={handleTitleChange}
             onBlur={handleTitleBlur}
-            onKeyDown={(e) => handleKeyDown(e, handleTitleBlur)}
+            onKeyDown={handleTitleKeyDown}
           />
         ) : (
           <ColumnTitle color={column.color} onClick={handleTitleClick}>
             <span>{tasks.length}</span> {column.title}
-            {!['1', '2', '3'].includes(column.id) && (
+            {!PROTECTED_COLUMN_IDS.includes(column.id) && (
               <DeleteColumnButton onClick={handleDeleteColumn}>
                 ×
               </DeleteColumnButton>
@@ -148,7 +156,7 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
           {tasks
             .slice(
               0,
-              showAllTasks || window.innerWidth > 760 ? tasks.length : 3,
+              showAllTasks || window.innerWidth > MOBILE_BREAKPOINT ? tasks.length : DEFAULT_VISIBLE_TASKS,
             )
             .map((task, index) => (
               <TaskCard
