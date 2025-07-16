@@ -46,7 +46,7 @@ export const ColumnTitle = styled.div<{ color: string }>`
     font-size: ${theme.typography.fontSize.md};
     font-weight: ${theme.typography.fontWeight.bold};
     margin: 0 0 ${theme.sizes.spacing.lg} 0;
-    color: ${theme.colors.globalBackground};
+    color: ${theme.colors.forText};
     display: flex;
     align-items: center;
     padding: ${theme.sizes.padding.sm};

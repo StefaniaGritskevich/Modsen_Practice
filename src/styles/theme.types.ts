@@ -4,6 +4,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       globalBackground: string;
+      forText: string;
       toDo: string;
       inProgress: string;
       done: string;

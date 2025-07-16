@@ -3,11 +3,8 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import kanbanReducer from './kanbanSlice';
-
-const persistConfig = {
-  key: 'kanban',
-  storage,
-};
+import StorageService from './storeServise';
+const persistConfig = StorageService.getPersistConfig('kanban');
 
 const persistedReducer = persistReducer(persistConfig, kanbanReducer);
 

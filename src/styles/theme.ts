@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 export const lightTheme = {
   colors: {
     globalBackground: '#ffffff',
+    forText: '#ffffff',
     toDo: '#4F46E5',
     inProgress: '#F59E0B',
     done: '#22C55E',
@@ -148,6 +149,7 @@ export const darkTheme = {
     inputBorder: '#2d3748',
     placeholder: '#a0aec0',
     globalBackground: '#121212',
+    darkSlate: '#ffffff'
   },
   shadows:{
     small: '0 2px 4px #262424',
