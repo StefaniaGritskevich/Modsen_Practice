@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Modsen_Practice/static/css/main.eb11a844.css",
+    "main.js": "/Modsen_Practice/static/js/main.df2869c4.js",
+    "static/js/845.7250dd20.chunk.js": "/Modsen_Practice/static/js/845.7250dd20.chunk.js",
+    "index.html": "/Modsen_Practice/index.html",
+    "main.df2869c4.js.map": "/Modsen_Practice/static/js/main.df2869c4.js.map",
+    "845.7250dd20.chunk.js.map": "/Modsen_Practice/static/js/845.7250dd20.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eb11a844.css",
+    "static/js/main.df2869c4.js"
+  ]
+}
