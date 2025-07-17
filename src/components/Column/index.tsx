@@ -130,7 +130,6 @@ const Column: React.FC<ColumnProps> = ({ column, moveTask }) => {
   const handleSetIsAddingTaskFalse = () => {
     setIsAddingTask(false);
   };
-
   return (
     <ErrorBoundary>
       <ColumnContainer ref={drop}>
