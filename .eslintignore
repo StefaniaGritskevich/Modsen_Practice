@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+*.config.js
+*.md
+*.css
+jest.config.js
+webpack.config.js
